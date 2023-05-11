@@ -20,6 +20,7 @@ client
 });
 
 client.set = util.promisify(client.set)
+client.get = util.promisify(client.get)
 
 const app = express()
 app.use(express.json())
@@ -30,6 +31,11 @@ app.post('/', async (req, res) =>{
     res.json(response)
 })
 
+app.get('/', async (req, res) => {
+    const { key } = req.body
+    const value = await client.get(key)
+    res.json(value)
+})
 
 app.listen(3000, ()=>{
     console.log('server running on port 3000');
